@@ -17,144 +17,60 @@
   </head>
 
   <body>
-    <!-- header section starts  -->
-    <header>
-      <a href="#" class="logo">Dica da Vovó</a>
-      <form action="../search/listaReceitas.php" method="POST">
-      <div class="search-box">
-        <input
-          type="text"
-          class="search-text"
-          id="searchText"
-          name="search"
-          placeholder="Busque por receitas"
-        />
-        <button href="#" type="submit" class="search-btn"
-          ><img
-            src="./assets/images/loupe.png"
-            alt="lupa"
-            height="20"
-            width="20"
-        /></button>
-      </div>
-      </form>
-
-      <div class="action-user">
-        <div class="profile" onclick="menuToggle();">
-          <img src="./assets/images/profile.png" alt="" />
-        </div>
-        <div class="menu">
-          <h3>Nome de usuário <br /><span>E-mail</span></h3>
-          <ul>
-            <li>
-              <img src="./assets/images/profile.png" alt="" /><a href="#"
-                >Meu perfil</a
-              >
-            </li>
-            <li>
-              <img src="./assets/images/editar.png" alt="" /><a href="#"
-                >Editar</a
-              >
-            </li>
-            <li>
-              <img src="./assets/images/logout.png" alt="" /><a href="#"
-                >Sair</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-      <script>
-        function menuToggle() {
-          const toggleMenu = document.querySelector(".menu");
-          toggleMenu.classList.toggle("active");
-        }
-      </script>
-    </header>
+  <?php
+    include_once("./header.php")
+  ?>
 
     <section class="speciality" id="resultados">
       <h1 class="heading"><span>Resultados</span> encontrados</h1>
 
       <div class="box-container">
-        <div class="box">
-          <!-- foto da receita -->
-          <img class="image" src="./assets/images/exemplo.jpg" alt="" />
-          <div class="content">
-            <img src="./assets/images/recomendado.png" alt="" />
-            <h3>Nome da receita</h3>
-            <p>descrição dos ingredientes que vão na receita</p>
-          </div>
-        </div>
 
-        <div class="box">
-          <!-- foto da receita -->
-          <img class="image" src="./assets/images/exemplo.jpg" alt="" />
-          <div class="content">
-            <img src="./assets/images/recomendado.png" alt="" />
-            <h3>Nome da receita</h3>
-            <p>descrição dos ingredientes que vão na receita</p>
-          </div>
-        </div>
 
-        <div class="box">
-          <!-- foto da receita -->
-          <img class="image" src="./assets/images/exemplo.jpg" alt="" />
-          <div class="content">
-            <img src="./assets/images/recomendado.png" alt="" />
-            <h3>Nome da receita</h3>
-            <p>descrição dos ingredientes que vão na receita</p>
-          </div>
-        </div>
+      <?php
+          require_once("../models/Ingrediente.php");
+          $ingrediente = new Ingrediente();
+          $listIngredientes = explode(',', $_POST['search']);
+          $listIds = array();
+          $listNames = array();
+          foreach($ingrediente->listar($listIngredientes) as $ingre){
+              array_push($listIds, $ingre["idIngrediente"]);
+              array_push($listNames, $ingre["nomeIngrediente"]);
+          }
+          require_once("../models/Receita.php");
+          $receita = new Receita();
+          $listReceitas = $receita->readWithIds($listIds);
+          foreach($listReceitas as $recet){
+            //$recet["nomeReceita"]
+              $box = "
+                <div class='box'>
+                <!-- foto da receita -->
+                <img class='image' src='../{$recet["caminhoImg"]}' alt='' />
+                <div class='content'>
+                  <img src='./assets/images/recomendado.png' alt='' />
+                  <h3>{$recet["nomeReceita"]}</h3>
+                  <p>Ingredientes: {}</p>
+                </div>
+              </div>
+              
+              ";
 
-        <div class="box">
-          <!-- foto da receita -->
-          <img class="image" src="./assets/images/exemplo.jpg" alt="" />
-          <div class="content">
-            <img src="./assets/images/recomendado.png" alt="" />
-            <h3>Nome da receita</h3>
-            <p>descrição dos ingredientes que vão na receita</p>
-          </div>
-        </div>
+              echo($box);
+          }
+      ?>
 
-        <div class="box">
-          <!-- foto da receita -->
-          <img class="image" src="./assets/images/exemplo.jpg" alt="" />
-          <div class="content">
-            <img src="./assets/images/recomendado.png" alt="" />
-            <h3>Nome da receita</h3>
-            <p>descrição dos ingredientes que vão na receita</p>
-          </div>
-        </div>
+        
 
-        <div class="box">
-          <!-- foto da receita -->
+        <!--<div class="box">
           <img class="image" src="./assets/images/exemplo.jpg" alt="" />
           <div class="content">
             <img src="./assets/images/recomendado.png" alt="" />
             <h3>Nome da receita</h3>
             <p>descrição dos ingredientes que vão na receita</p>
           </div>
-        </div>
+        </div>>-->
 
-        <div class="box">
-          <!-- foto da receita -->
-          <img class="image" src="./assets/images/exemplo.jpg" alt="" />
-          <div class="content">
-            <img src="./assets/images/recomendado.png" alt="" />
-            <h3>Nome da receita</h3>
-            <p>descrição dos ingredientes que vão na receita</p>
-          </div>
-        </div>
-
-        <div class="box">
-          <!-- foto da receita -->
-          <img class="image" src="./assets/images/exemplo.jpg" alt="" />
-          <div class="content">
-            <img src="./assets/images/recomendado.png" alt="" />
-            <h3>Nome da receita</h3>
-            <p>descrição dos ingredientes que vão na receita</p>
-          </div>
-        </div>
+        
       </div>
     </section>
 

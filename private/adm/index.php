@@ -16,8 +16,9 @@
   <div class="container">
     <header>
       <nav>
+        <button><a href="../../views/pesquisar-receitas">Pesquisar receitas</a></button>
         <h2>Seja bem vindo Administrador</h2>
-        <button id="leave">Sair</button>
+        <button id="leave">Encerrar sessão</button>
       </nav>
     </header>
     <dialog id="dialog-logout">

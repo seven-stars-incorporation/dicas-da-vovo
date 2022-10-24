@@ -18,61 +18,11 @@
 
   <body>
     <!-- header section starts  -->
-    <header>
-      <a href="#" class="logo">Dica da Vovó</a>
-      <form action="../search/listaReceitas.php" method="POST">
-      <div class="search-box">
-        <input
-          type="text"
-          class="search-text"
-          id="searchText"
-          name="search"
-          placeholder="Busque por receitas"
-        />
-        <button href="#" type="submit" class="search-btn"
-          ><img
-            src="./assets/images/loupe.png"
-            alt="lupa"
-            height="20"
-            width="20"
-        /></button>
-      </div>
-      </form>
+    <?php
+      include_once("./header.php")
+    ?>
 
-      <div class="action-user">
-        <div class="profile" onclick="menuToggle();">
-          <img src="./assets/images/profile.png" alt="" />
-        </div>
-        <div class="menu">
-          <h3>Nome de usuário <br /><span>E-mail</span></h3>
-          <ul>
-            <li>
-              <img src="./assets/images/profile.png" alt="" /><a href="#"
-                >Meu perfil</a
-              >
-            </li>
-            <li>
-              <img src="./assets/images/editar.png" alt="" /><a href="#"
-                >Editar</a
-              >
-            </li>
-            <li>
-              <img src="./assets/images/logout.png" alt="" /><a href="#"
-                >Sair</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-      <script>
-        function menuToggle() {
-          const toggleMenu = document.querySelector(".menu");
-          toggleMenu.classList.toggle("active");
-        }
-      </script>
-    </header>
-
-    <!-- header section ends -->
+    <!-- header section ends -->s
 
     <!-- home section starts  -->
 
