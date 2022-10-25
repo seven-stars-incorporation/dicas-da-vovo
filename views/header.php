@@ -30,7 +30,7 @@
             <ul>
 
               <li>
-                <img src="./assets/images/editar.png" alt="" /><a href="../login.php"
+                <img src="./assets/images/login-box-fill.png" alt="" /><a href="../login.php"
                   >Login</a
                 >
               </li>

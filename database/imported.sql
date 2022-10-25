@@ -1,3 +1,4 @@
+-- SQLBook: Code
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
@@ -59,6 +60,7 @@ CREATE TABLE `tbreceita` (
 CREATE TABLE `tbusuario` (
   `idUsuario` int(11) NOT NULL,
   `nomeUsuario` varchar(50) DEFAULT NULL,
+  `usuario` varchar(50) DEFAULT NULL,
   `senhaUsuario` varchar(50) DEFAULT NULL,
   `emailUsuario` varchar(50) DEFAULT NULL,
   `isAdm` tinyint(1) NOT NULL DEFAULT 0,

@@ -22,7 +22,7 @@
       include_once("./header.php")
     ?>
 
-    <!-- header section ends -->s
+    <!-- header section ends -->
 
     <!-- home section starts  -->
 
