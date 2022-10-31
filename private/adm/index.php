@@ -16,7 +16,7 @@
   <div class="container">
     <header>
       <nav>
-        <button><a href="../../views/pesquisar-receitas">Pesquisar receitas</a></button>
+        <button onclick="window.location.href = '../../index.php'">Pesquisar receitas</button>
         <h2>Seja bem vindo Administrador</h2>
         <button id="leave">Encerrar sessão</button>
       </nav>
@@ -56,10 +56,10 @@
         <div class="field">
           <label for="Ingredients">Ingredientes</label>
           <textarea id="Ingredients" type="text" name="Ingredients" placeholder="Liste os ingredientes:
-Ovo, Farinha..." required data-role="tagsinput"></textarea>
+UNIDADE NOME_INGREDIENTE == VALOR" required data-role="tagsinput"></textarea>
         </div>
 
-        <div class="field hidden">
+        <div class="hidden">
           <label for="image">Insira uma imagem</label>
           <input id="image" type="file" name="image" accept="image/png, image/jpeg">
         </div>

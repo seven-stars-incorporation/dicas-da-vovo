@@ -28,35 +28,53 @@
 
 
       <?php
-          require_once("../models/Ingrediente.php");
-          $ingrediente = new Ingrediente();
-          $listIngredientes = explode(',', $_POST['search']);
-          $listIds = array();
-          $listNames = array();
-          foreach($ingrediente->listar($listIngredientes) as $ingre){
-              array_push($listIds, $ingre["idIngrediente"]);
-              array_push($listNames, $ingre["nomeIngrediente"]);
-          }
-          require_once("../models/Receita.php");
-          $receita = new Receita();
-          $listReceitas = $receita->readWithIds($listIds);
-          foreach($listReceitas as $recet){
-            //$recet["nomeReceita"]
-              $box = "
-                <div class='box'>
-                <!-- foto da receita -->
-                <img class='image' src='../{$recet["caminhoImg"]}' alt='' />
-                <div class='content'>
-                  <img src='./assets/images/recomendado.png' alt='' />
-                  <h3>{$recet["nomeReceita"]}</h3>
-                  <p>Ingredientes: {}</p>
-                </div>
-              </div>
-              
-              ";
+          require_once("../models/ReceitaIngrediente.php");
 
-              echo($box);
+          $ids = $_POST['ingredientList'];
+          $ids = explode(',', $ids);
+          $receitaIngrediente = new ReceitaIngrediente();
+
+          $redundancyControl = array();
+
+          foreach($ids as $id){
+            if(strlen($id)> 0){
+              $listRecipes = $receitaIngrediente->listarPIngrediente($id);
+              foreach($listRecipes as $recet){
+                
+                if(!in_array($recet["idReceita"], $redundancyControl)){
+                  $listIngredientes = $receitaIngrediente->listarIngredientePRecita($recet["idReceita"]);
+                  $ingredientesText = "";
+                  $valorTotal = 0;
+                  foreach($listIngredientes as $ingredient){
+                    $ingredientesText .= $ingredient['nomeIngrediente'] . " </br> ";
+                    $valorTotal += floatval($ingredient['valorIngrediente']);
+                  }
+
+                  $box = "
+                    <div class='box'>
+                    <!-- foto da receita -->
+                    <img class='image' src='../{$recet["caminhoImg"]}' alt='' />
+                    <div class='content'>
+                      <img src='./assets/images/recomendado.png' alt='' />
+                      <h3>{$recet["nomeReceita"]}</h3>
+                      <p>Ingredientes: {$ingredientesText}</p>
+                      <p>Valor Da Receita: R\${$valorTotal},00 </p>
+                    </div>
+                  </div>
+                  
+                  ";
+
+
+
+                  echo($box);
+                  array_push($redundancyControl, $recet["idReceita"]);
+                }
+                
+              }
+            }
           }
+          
+          
       ?>
 
         

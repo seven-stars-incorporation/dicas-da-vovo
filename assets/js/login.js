@@ -13,14 +13,7 @@ showPassword.onclick = () => {
   }
 };
 
-function checkUsername() {
-/**
- * TODO
- */
-}
-
-
-const buttonSignIn = document.getElementById("sign-in");
-buttonSignIn.addEventListener("click", (e) => {
-  //e.preventDefault()
-});
+// const buttonSignIn = document.getElementById("sign-in");
+// buttonSignIn.addEventListener("click", (e) => {
+//   //e.preventDefault()
+// });

@@ -43,15 +43,19 @@
 
         public function cadastrar($Receita){
             $con = Conexao::conectar();
-            $stmt = $con->prepare("INSERT INTO `tbreceita`(`idsIngredientes`, `nomeReceita`, `modoPreparo`, `tempoReceita`, caminhoImg)
-                                    VALUES(?,?,?,?,?)");
-            $stmt->bindValue(1, $Receita->getIdsIngredientes());
-            $stmt->bindValue(2, $Receita->getNomeReceita());
-            $stmt->bindValue(3, $Receita->getModoPreparo());
-            $stmt->bindValue(4, $Receita->getTempoReceita());
-            $stmt->bindValue(5, $Receita->getCaminhoImg());
+            $stmt = $con->prepare("INSERT INTO `tbreceita`(`nomeReceita`, `modoPreparo`, `tempoReceita`, caminhoImg)
+                                    VALUES(?,?,?,?)");
+            $stmt->bindValue(1, $Receita->getNomeReceita());
+            $stmt->bindValue(2, $Receita->getModoPreparo());
+            $stmt->bindValue(3, $Receita->getTempoReceita());
+            $stmt->bindValue(4, $Receita->getCaminhoImg());
             $stmt->execute();
+            $lastID = "SELECT LAST_INSERT_ID()";
+            $result = $con->query($lastID);
+            return $result->fetchAll()[0][0];
         }
+
+
 
         public function listar(){
             $con = Conexao::conectar();
@@ -61,15 +65,5 @@
             return $lista;
         }
 
-        public function readWithIds($ingredientes){
-            $con = Conexao::conectar();
-            $querySelect = "SELECT * FROM tbreceita WHERE false ";
-            foreach($ingredientes as  $ingred){
-                $querySelect .= "OR idsIngredientes LIKE '%" . $ingred . "%' ";
-            }
-            $resultado = $con->query($querySelect);
-            $lista = $resultado->fetchAll();
-            return $lista;
-        }
     }
 ?>

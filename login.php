@@ -41,13 +41,13 @@
           <label for="remember-me">Lembrar de mim</label>
         </div>
         <div>
-          <a class="recover-password" href="/fodaseKKKKKKKKKKKKKKK" tabindex="4">Esqueceu sua senha?</a>
+          <a class="recover-password" href="#" tabindex="4">Esqueceu sua senha?</a>
         </div>
       </div>
 
       <button type="submit" id="sign-in">Entrar</button>
       <div>
-        <a class="recover-password" href="/fodaseKKKKKKKKKKKKKKK" tabindex="5">Esqueceu sua senha?</a>
+        <a class="recover-password" href="#" tabindex="5">Esqueceu sua senha?</a>
       </div>
       <div class="go-to-somewhere">
         <div class="separator"></div>

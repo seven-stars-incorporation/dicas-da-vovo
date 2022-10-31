@@ -13,7 +13,7 @@ class Conexao
       )
     */
     $server = "localhost";
-    $database = "bddicadavovo";
+    $database = "bddicadavovo2";
     $user = "root";
     $password = "";
 

@@ -34,6 +34,5 @@ html,
 body {
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
-  scrollbar-width: thin;
   color: #27272a;
 }

@@ -1,51 +1,116 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pesquisar</title>
 
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dicas da Vovó</title>
+  <!-- remixicon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <!-- font awesome cdn link  -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
-    <link rel="stylesheet" type="text/css" href="./assets/css/all.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link rel="stylesheet" type="text/css" href="./assets/css/all.min.css" />
 
-    <!-- custom css file link -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
-  </head>
+  <!-- custom css file link -->
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/main.css">
+  <script src="./assets/js/main.js" defer></script>
+</head>
 
-  <body>
-    <!-- header section starts  -->
-    <?php
-      include_once("./header.php")
-    ?>
-
-    <!-- header section ends -->
-
-    <!-- home section starts  -->
-
-    <section class="home" id="home">
-      <div class="content">
-        <h3>Siga as dicas da vovó</h3>
-        <p>
-          Busque receitas pelo nome dos ingredientes que você tem acesso, e a
-          vovó mostrará diversas receitas onde eles poderão ser utilizados. E o
-          melhor: <span>de maneira saudável</span>.
-        </p>
+<body>
+  <header>
+    <nav>
+      <div class="nav-item">
+        <!-- logo -->
+        <div class="logo">
+          <img src="./assets/images/vovo.png" alt="" style="width: 64px;">
+          <span>Dicas da Vovó</span>
+        </div>
       </div>
 
-      <div class="image">
-        <img src="./assets/images/vovo.png" alt="" />
+      <!-- <div class="nav-item">
+        <a href="">Receitas</a>
+        <a href="">Safra</a>
+      </div> -->
+
+      <div class="nav-item">
+        <!-- sign-in | sign-up -->
+        <!-- or -->
+        <!-- if exists session = show user actions -->
+        <?php
+          $withoutLogin = "
+          <div class='what-to-do'>
+            <a class='sign-in' href='../login.php'>Entrar</a>
+            <a class='sign-up' href='../sign-up.php'>Criar conta</a>
+          </div>
+          ";
+
+          session_start();
+          
+          $withLogin = "
+          <div class='what-to-do'>
+            <a class='sign-in' href='".(isset($_SESSION['isAdm']) == true ? "../private/adm/index.php" : "#")."'>Perfil</a>
+          </div>
+          ";
+          
+          if(isset($_SESSION['idUser']) == true){
+            echo($withLogin);
+          }else{
+            echo($withoutLogin);
+          }
+        ?>
+
+        
       </div>
-    </section>
+    </nav>
+  </header>
 
-    <!-- home section ends -->
+  <div class="container">
+    <div class="search-container">
+      <div class="search-box">
+        <div class="icon-search" id="icon-search">
+          <i class="ri-search-2-line ri-xl"></i>
+        </div>
+        <form style="width: 100%" action="resultados.php" method="POST">
+          <input class="search-input" type="search" name="search-input" id="search-input" placeholder="Ingredientes...">
+          <input type="hidden" name="ingredientList" id="hidden-input">
+        </form>
+        
+        <div class="icon-remove" onclick="removeAll();">
+          <i class="ri-close-circle-fill ri-xl"></i>
+        </div>
+      </div>
 
-    <!-- speciality section starts  -->
+      <div class="search-suggestion">
+        <ul class="suggestion-list" id="suggestion-box">
 
-    <section class="speciality" id="speciality">
+         <!-- <li class="suggestion-item">
+            <div class="add-item">
+              <img src="./assets/images/icons/add-fill.svg" alt="Icone adicionar">
+              <span>Nome do item</span>
+            </div>
+            <span class="add">Adicionar</span>
+          </li>
+
+          <li class="suggestion-item">
+            <div class="add-item">
+              <img src="./assets/images/icons/add-fill.svg" alt="Icone adicionar">
+              <span>Nome do item</span>
+            </div>
+            <span class="add">Adicionar</span>
+          </li> -->
+
+        </ul>
+      </div>
+    </div>
+
+        <!-- speciality section starts  -->
+
+        <section class="speciality" id="speciality">
       <h1 class="heading">Receitas <span>recomendadas</span></h1>
 
       <div class="box-container">
@@ -182,11 +247,83 @@
         </div>
       </div>
     </section>
+  </div>
+<!-- 
+  <footer>
+    <p>&copy; Seven Stars 2022. Todos os direitos reservados.</p>
+  </footer> -->
+</body>
 
-    <footer>
-      <p>&copy; Seven Stars 2022. Todos os direitos reservados.</p>
-    </footer>
-    <!-- custom js file link  -->
-    <script src="./assets/js/script.js"></script>
-  </body>
+<script>
+  //COMUNICAÇÃO SQL-PHP COM JAVASCRIPT
+  <?php
+    require_once("../models/Ingrediente.php");
+
+    $ingredienteClass = new Ingrediente();
+    $listIngrediente  = $ingredienteClass->listar();
+    $json = json_encode($listIngrediente);
+  ?>
+  const ingredientesOBJ = <?php echo($json); ?>
+
+  var search = document.getElementById('search-input');
+  var hiddenInput = document.getElementById('hidden-input');
+  var suggestionBox = document.getElementById('suggestion-box');
+  var valInput;
+  
+  search.onkeyup = ()=>
+  {
+    suggestionBox.innerHTML = '';
+    
+    valInput = search.value;
+    ingredientesOBJ.filter(nameFilter);
+    
+  }
+
+  function nameFilter(ingrediente) 
+  {
+    let name = ingrediente['nomeIngrediente'].toLowerCase();
+    let occurrences = name.split(valInput.toLowerCase()).length -1;
+    if(occurrences == 1 && occurrences > 0 && valInput.length > 1)
+    {
+      addItem(ingrediente['nomeIngrediente'], ingrediente['idIngrediente']);
+    }
+
+  }
+
+  function addItem(name, id)
+  {
+    li = document.createElement('li');
+    li.className = 'suggestion-item';
+    div = document.createElement('div');
+    div.className = 'add-item';
+    img = document.createElement('img');
+    img.src = './assets/images/icons/add-fill.svg';
+    img.alt = 'Icone adicionar';
+    span = document.createElement('span');
+    span.innerText = name;
+    span2 = document.createElement('span');
+    span2.innerText = 'Adicionar';
+    span2.className = 'add';
+
+    div.appendChild(img);
+    div.appendChild(span);
+    li.appendChild(div);
+    li.appendChild(span2);
+    suggestionBox.appendChild(li);
+
+    li.onclick = ()=>
+    {
+      hiddenInput.value += id + ',';
+      suggestionBox.innerHTML = '';
+      search.value = '';
+    }
+  }
+
+  function removeAll()
+  {
+    hiddenInput.value = '';
+    suggestionBox.innerHTML = '';
+    search.value = '';
+  }
+</script>
 </html>
