@@ -283,7 +283,7 @@
   {
     let name = ingrediente['nomeIngrediente'].toLowerCase();
     let occurrences = name.split(valInput.toLowerCase()).length -1;
-    if(occurrences == 1 && occurrences > 0 && valInput.length > 1)
+    if(occurrences === 1 && occurrences > 0 && valInput.length > 1)
     {
       addItem(ingrediente['nomeIngrediente'], ingrediente['idIngrediente']);
     }

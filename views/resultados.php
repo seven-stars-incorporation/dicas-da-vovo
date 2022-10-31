@@ -43,10 +43,10 @@
                 
                 if(!in_array($recet["idReceita"], $redundancyControl)){
                   $listIngredientes = $receitaIngrediente->listarIngredientePRecita($recet["idReceita"]);
-                  $ingredientesText = "";
+                  $ingredientesText = @$listIngredientes[0]['nomeIngrediente'] . " </br> " . @$listIngredientes[1]['nomeIngrediente'] . " </br> " .
+                      @$listIngredientes[2]['nomeIngrediente'] . " </br> " . @$listIngredientes[3]['nomeIngrediente'] . "... </br> ";
                   $valorTotal = 0;
                   foreach($listIngredientes as $ingredient){
-                    $ingredientesText .= $ingredient['nomeIngrediente'] . " </br> ";
                     $valorTotal += floatval($ingredient['valorIngrediente']);
                   }
 
@@ -58,7 +58,7 @@
                       <img src='./assets/images/recomendado.png' alt='' />
                       <h3>{$recet["nomeReceita"]}</h3>
                       <p>Ingredientes: {$ingredientesText}</p>
-                      <p>Valor Da Receita: R\${$valorTotal},00 </p>
+                      <p>Valor Da Receita: R\${$valorTotal} </p>
                     </div>
                   </div>
                   
